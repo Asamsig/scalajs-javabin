@@ -1,15 +1,16 @@
 package asamsig
 
+import jsonmodels.yql.{Forecast, Yql}
 import org.scalajs.dom.Event
 import org.scalajs.dom.ext.Ajax
 import org.scalajs.dom.raw.HTMLInputElement
+import play.api.libs.json.Json
 import slinky.core._
 import slinky.core.annotations.react
 import slinky.core.facade.ReactElement
 import slinky.web.html._
 
 import scala.scalajs.js
-import scala.scalajs.js.JSON
 import scala.scalajs.js.annotation.JSImport
 import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
@@ -23,17 +24,17 @@ object ReactLogo extends js.Object
 
 @react class App extends Component {
   type Props = Unit
-  case class State(city: String, result: Option[js.Any] = None)
+  case class State(city: String, result: Option[Yql] = None)
 
   override def initialState = State("Trondheim")
 
   private val css = AppCSS
 
-  def createForecastItem(forecast: js.Dynamic): ReactElement =
+  def createForecastItem(forecast: Forecast): ReactElement =
     dt(
       div(
         h4(b(s"${forecast.day} ${forecast.date.toString.dropRight(5)}")),
-        s"${forecast.low.asInstanceOf[String].toInt}° - ${forecast.high.asInstanceOf[String].toInt}° ${forecast.text}"
+        s"${forecast.low.toInt}° - ${forecast.high.toInt}° ${forecast.text}"
       )
     )
 
@@ -53,7 +54,7 @@ object ReactLogo extends js.Object
         )
         .map { response =>
           setState(prevState => {
-            Option(JSON.parse(response.responseText)).filter(_.query.count.asInstanceOf[Int] > 0) match {
+            Option(Json.parse(response.responseText).as[Yql]).filter(_.query.count > 0) match {
               case Some(data) =>
                 State(prevState.city, Some(data))
               case None =>
@@ -83,10 +84,8 @@ object ReactLogo extends js.Object
           )
         ),
         state.result
-          .map(result => {
-            val yql = result.asInstanceOf[js.Dynamic]
-            val elements: Seq[ReactElement] =
-              yql.query.results.channel.item.forecast.asInstanceOf[js.Array[js.Dynamic]].map(createForecastItem)
+          .map(yql => {
+            val elements: Seq[ReactElement] = yql.query.results.channel.item.forecast.map(createForecastItem)
             List(h1(yql.query.results.channel.location.city.toString), dl(elements))
           })
       )
