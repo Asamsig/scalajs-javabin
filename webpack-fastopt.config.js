@@ -5,8 +5,8 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = merge(core, {
   entry: {
-    "dependencies": ["./scalajs-javabin-fastopt-entrypoint.js"],
-    "scalajs-javabin-fastopt": ["./hot-launcher.js"]
+    "dependencies": ["./scalajs-type-provision-demo-fastopt-entrypoint.js"],
+    "scalajs-type-provision-demo-fastopt": ["./hot-launcher.js"]
   },
   output: {
     path: __dirname,

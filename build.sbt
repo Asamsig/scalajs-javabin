@@ -1,6 +1,6 @@
 enablePlugins(ScalaJSBundlerPlugin, SbtJsonPlugin)
 
-name := "scalajs-javabin"
+name := "scalajs-type-provision-demo"
 
 scalaVersion := "2.12.4"
 

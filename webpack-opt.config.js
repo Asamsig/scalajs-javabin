@@ -7,7 +7,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = merge(core, {
   mode: "production",
   entry: {
-    "scalajs-javabin-opt": [ path.resolve(__dirname, "./opt-launcher.js") ]
+    "scalajs-type-provision-demo-opt": [ path.resolve(__dirname, "./opt-launcher.js") ]
   },
   output: {
     "path": path.resolve(__dirname, "../../../../build"),

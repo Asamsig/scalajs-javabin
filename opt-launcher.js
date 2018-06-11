@@ -1,1 +1,1 @@
-require("./scalajs-javabin-opt.js").entrypoint.main();
+require("./scalajs-type-provision-demo-opt.js").entrypoint.main();

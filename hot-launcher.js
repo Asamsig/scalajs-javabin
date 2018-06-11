@@ -1,4 +1,4 @@
-require("./scalajs-javabin-fastopt.js").entrypoint.main();
+require("./scalajs-type-provision-demo-fastopt.js").entrypoint.main();
 
 if (module.hot) {
     module.hot.accept();
